@@ -20,7 +20,7 @@ static const int bar_padding        = 8; /* #pixels added to bar font height */
 // static const char col_gray4[]       = "#eeeeee";
 // static const char col_cyan[]        = "#005577";
 
-static const unsigned int baralpha = 0xc0;
+static const unsigned int baralpha = 0xf0;
 static const unsigned int borderalpha = OPAQUE;
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
