@@ -55,10 +55,10 @@ static const int resizehints = 0;    /* 1 means respect size hints in tiled resi
 #include "layouts.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "🧱",      tile },    /* first entry is default */
-	{ "☁",      NULL },    /* no layout function means floating behavior */
-	{ "🔎",      monocle },
-	{ "🌐",      grid },
+	{ "",      tile },    /* first entry is default */
+	{ "",      NULL },    /* no layout function means floating behavior */
+	{ "",      monocle },
+	{ "﩯",      grid },
 	{ NULL,       NULL },
 };
 
@@ -81,25 +81,23 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 
-	/* { MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } }, */
+ { MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	/* { MODKEY,			XK_Return, spawn,          {.v = termcmd } }, */
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_c,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_v,      incnmaster,     {.i = -1 } },
+	{ MODKEY,                       XK_period, incnmaster,     {.i = +1 } },
+	{ MODKEY,                       XK_comma,  incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	/* { MODKEY,                       XK_Return, zoom,           {0} }, */
 	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY,			XK_q,      killclient,     {0} },
+	{ MODKEY,	                  		XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	/* { MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} }, */
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[3]} },
-	/* { MODKEY|ControlMask,		XK_comma,  cyclelayout,    {.i = -1 } }, */
-	/* { MODKEY|ControlMask,           XK_period, cyclelayout,    {.i = +1 } }, */
-	{ MODKEY,			XK_space,  zoom,      {0} },
+	{ MODKEY,		                	XK_space,  zoom,      {0} },
 	{ MODKEY|ShiftMask,           XK_space, cyclelayout,    {.i = +1 } },
 	/* { MODKEY,                       XK_space,  setlayout,      {0} }, */
 	/* { MODKEY|ShiftMask,             XK_space,  togglefloating, {0} }, */

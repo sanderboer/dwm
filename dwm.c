@@ -282,6 +282,7 @@ static void resizemouse(const Arg *arg);
 static void resizerequest(XEvent *e);
 static void restack(Monitor *m);
 static void run(void);
+static void runAutostart(void);
 static void scan(void);
 static int sendevent(Window w, Atom proto, int m, long d0, long d1, long d2,
                      long d3, long d4);
@@ -330,6 +331,7 @@ static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void xinitvisual();
 static void zoom(const Arg *arg);
+static void runAutostart(void);
 
 /* variables */
 static Systray *systray = NULL;
@@ -2781,6 +2783,11 @@ void zoom(const Arg *arg)
   pop(c);
 }
 
+void runAutostart(void) {
+	system("cd ~/.dwm; ./autostart_blocking.sh");
+	system("cd ~/.dwm; ./autostart.sh &");
+}
+
 int main(int argc, char *argv[])
 {
   if (argc == 2 && !strcmp("-v", argv[1]))
@@ -2798,6 +2805,7 @@ int main(int argc, char *argv[])
     die("pledge");
 #endif /* __OpenBSD__ */
   scan();
+  runAutostart();
   run();
   cleanup();
   XCloseDisplay(dpy);
