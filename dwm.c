@@ -1907,7 +1907,7 @@ void setup(void)
   if (!drw_fontset_create(drw, fonts, LENGTH(fonts)))
     die("no fonts could be loaded.");
   lrpad = drw->fonts->h;
-  bh = drw->fonts->h + bar_padding;
+  bh = drw->fonts->h + 2*bar_padding;
   updategeom();
   /* init atoms */
   utf8string = XInternAtom(dpy, "UTF8_STRING", False);
@@ -2435,7 +2435,8 @@ void updatestatus(void)
 
 void updatesystrayicongeom(Client *i, int w, int h)
 {
-  int sbh = bh - bar_padding;
+  // int sbh = bh - bar_padding;
+  int sbh= drw->fonts->h - 2 ;
   if (i)
   {
     i->h = sbh;
@@ -2569,7 +2570,9 @@ void updatesystray(void)
     XMapRaised(dpy, i->win);
     w += systrayspacing;
     i->x = w;
-    XMoveResizeWindow(dpy, i->win, i->x,(int)( bar_padding / 2), i->w, i->h);
+    int sbh= drw->fonts->h;
+    int sys_y = (int)((bh - sbh)/2);
+    XMoveResizeWindow(dpy, i->win, i->x, sys_y , i->w, i->h);
     w += i->w;
     if (i->mon != m)
       i->mon = m;
