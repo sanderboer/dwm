@@ -1,0 +1,21 @@
+* My dwm build
+
+I forked ot from Luke Smith's dwm fork and I am pretty sure it was based on 6.1-ish.
+
+I applied / hacked some patches:
+
+- full gaps
+- bottom stack
+- centered master (edited to have gaps)
+- status bar ( hacked with padding, no transparency though )
+- transparency in status bar
+- noborder
+- movestack
+
+I removed the drawing of the current window title in the status bar.
+
+Screen shot:
+
+
+[[./screenshot.png]]
+
