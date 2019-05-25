@@ -1,6 +1,6 @@
 /* See LICENSE file for copyright and license details. */
 #include "movestack.c"
-#include "push.c"
+// #include "push.c"
 
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
@@ -95,8 +95,6 @@ static Key keys[] =
    { MODKEY|ShiftMask,   XK_Tab,    focusstack,     {.i = -1 } },
    { MODKEY|ShiftMask,   XK_j,      movestack,      {.i = +1 } },
    { MODKEY|ShiftMask,   XK_k,      movestack,      {.i = -1 } },
- { MODKEY|ControlMask,           XK_j,      pushdown,       {0} },
-	{ MODKEY|ControlMask,           XK_k,      pushup,         {0} },
 
    /*   { MODKEY,             XK_j,      focusstack,     {.i = +1 } },
    { MODKEY,             XK_k,      focusstack,     {.i = -1 } }, */
