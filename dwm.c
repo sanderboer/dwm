@@ -336,7 +336,7 @@ static void bstack(Monitor *m);
 static void bstackhoriz(Monitor *m);
 static void centeredmaster(Monitor *m);
 static void centeredfloatingmaster(Monitor *m);
- 
+
 /* variables */
 static Systray *systray = NULL;
 static const char broken[] = "broken";
@@ -974,7 +974,7 @@ void drawbar(Monitor *m)
     {
       drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeNorm]);
       //			drw_text(drw, x, 0, w, bh, lrpad / 2,
-      //m->sel->name, 0); /* draws the active window name */
+      // m->sel->name, 0); /* draws the active window name */
       if (m->sel->isfloating)
         drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
     }
@@ -1911,7 +1911,7 @@ void setup(void)
   if (!drw_fontset_create(drw, fonts, LENGTH(fonts)))
     die("no fonts could be loaded.");
   lrpad = drw->fonts->h;
-  bh = drw->fonts->h + 2*bar_padding;
+  bh = drw->fonts->h + 2 * bar_padding;
   updategeom();
   /* init atoms */
   utf8string = XInternAtom(dpy, "UTF8_STRING", False);
@@ -2440,7 +2440,7 @@ void updatestatus(void)
 void updatesystrayicongeom(Client *i, int w, int h)
 {
   // int sbh = bh - bar_padding;
-  int sbh= drw->fonts->h - 2 ;
+  int sbh = drw->fonts->h - 2;
   if (i)
   {
     i->h = sbh;
@@ -2452,7 +2452,7 @@ void updatesystrayicongeom(Client *i, int w, int h)
       i->w = (int)((float)sbh * ((float)w / (float)h));
     applysizehints(i, &(i->x), &(i->y), &(i->w), &(i->h), False);
     /* force icons into the systray dimenons if they don't want to */
-    if (i->h > sbh )
+    if (i->h > sbh)
     {
       if (i->w == i->h)
         i->w = sbh;
@@ -2508,27 +2508,27 @@ void updatesystray(void)
     /* init systray */
     if (!(systray = (Systray *)calloc(1, sizeof(Systray))))
       die("fatal: could not malloc() %u bytes\n", sizeof(Systray));
-    systray->win = XCreateSimpleWindow(dpy, root, x, m->by, w, bh,
-       0, 0, scheme[SchemeNorm][ColBg].pixel);
+    systray->win = XCreateSimpleWindow(dpy, root, x, m->by, w, bh, 0, 0,
+                                       scheme[SchemeNorm][ColBg].pixel);
 
     wa.override_redirect = True;
     // wa.background_pixel = 0;
-    wa.background_pixel = scheme[SchemeNorm][ColBg].pixel; 
-    wa.border_pixel = scheme[SchemeNorm][ColBg].pixel; 
+    wa.background_pixel = scheme[SchemeNorm][ColBg].pixel;
+    wa.border_pixel = scheme[SchemeNorm][ColBg].pixel;
     wa.colormap = cmap;
     wa.event_mask = ButtonPressMask | ExposureMask;
-  	
+
     /*
       Window XCreateWindow(
-      Display *display, 
-      Window parent, 
-      int x, int y, 
-      unsigned int width, unsigned int height, 
-      unsigned int border_width, 
-      int depth, 
-      unsigned int class, 
-      Visual *visual, 
-      unsigned long valuemask, 
+      Display *display,
+      Window parent,
+      int x, int y,
+      unsigned int width, unsigned int height,
+      unsigned int border_width,
+      int depth,
+      unsigned int class,
+      Visual *visual,
+      unsigned long valuemask,
       XSetWindowAttributes *attributes);
     */
 
@@ -2537,17 +2537,15 @@ void updatesystray(void)
     /*                 0, depth, InputOutput, visual, */
     /*                 CWOverrideRedirect | CWBackPixel | */
     /*                 CWBorderPixel | CWColormap | CWEventMask, &wa); */
-    
+
     XSelectInput(dpy, systray->win, SubstructureNotifyMask);
     XChangeProperty(dpy, systray->win, netatom[NetSystemTrayOrientation],
                     XA_CARDINAL, 32, PropModeReplace,
                     (unsigned char *)&netatom[NetSystemTrayOrientationHorz], 1);
 
     XChangeWindowAttributes(
-                            dpy, systray->win,
-                            CWEventMask | CWOverrideRedirect | CWBackPixel,
-                            &wa);
-    
+        dpy, systray->win, CWEventMask | CWOverrideRedirect | CWBackPixel, &wa);
+
     XMapRaised(dpy, systray->win);
     XSetSelectionOwner(dpy, netatom[NetSystemTray], systray->win, CurrentTime);
     if (XGetSelectionOwner(dpy, netatom[NetSystemTray]) == systray->win)
@@ -2569,14 +2567,14 @@ void updatesystray(void)
     /* make sure the background color stays the same */
     wa.background_pixel = scheme[SchemeNorm][ColBg].pixel;
     // wa.background_pixel  = 0;
-    wa.border_pixel  = scheme[SchemeNorm][ColBg].pixel;
+    wa.border_pixel = scheme[SchemeNorm][ColBg].pixel;
     XChangeWindowAttributes(dpy, i->win, CWBackPixel, &wa);
     XMapRaised(dpy, i->win);
     w += systrayspacing;
     i->x = w;
-    int sbh= drw->fonts->h;
-    int sys_y = (int)((bh - sbh)/2);
-    XMoveResizeWindow(dpy, i->win, i->x, sys_y , i->w, i->h);
+    int sbh = drw->fonts->h;
+    int sys_y = (int)((bh - sbh) / 2);
+    XMoveResizeWindow(dpy, i->win, i->x, sys_y, i->w, i->h);
     w += i->w;
     if (i->mon != m)
       i->mon = m;
@@ -2790,9 +2788,10 @@ void zoom(const Arg *arg)
   pop(c);
 }
 
-void runAutostart(void) {
-	system("cd ~/.dwm; ./autostart_blocking.sh");
-	system("cd ~/.dwm; ./autostart.sh &");
+void runAutostart(void)
+{
+  system("cd ~/.dwm; ./autostart_blocking.sh");
+  system("cd ~/.dwm; ./autostart.sh &");
 }
 
 int main(int argc, char *argv[])
@@ -2819,176 +2818,3 @@ int main(int argc, char *argv[])
   return EXIT_SUCCESS;
 }
 
-static void
-bstack(Monitor *m) {
-	int w, h, mh, mx, tx, ty, tw;
-	unsigned int i, n;
-	Client *c;
-
-	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
-	if (n == 0)
-		return;
-	if (n > m->nmaster) {
-		mh = m->nmaster ? m->mfact * m->wh : 0;
-		tw = m->ww / (n - m->nmaster);
-		ty = m->wy + mh;
-	} else {
-		mh = m->wh;
-		tw = m->ww;
-		ty = m->wy;
-	}
-	for (i = mx = 0, tx = m->wx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
-		if (i < m->nmaster) {
-			w = (m->ww - mx) / (MIN(n, m->nmaster) - i);
-			resize(c, m->wx + mx, m->wy, w - (2 * c->bw), mh - (2 * c->bw), 0);
-			mx += WIDTH(c);
-		} else {
-			h = m->wh - mh;
-			resize(c, tx, ty, tw - (2 * c->bw), h - (2 * c->bw), 0);
-			if (tw != m->ww)
-				tx += WIDTH(c);
-		}
-	}
-}
-
-static void
-bstackhoriz(Monitor *m) {
-	int w, mh, mx, tx, ty, th;
-	unsigned int i, n;
-	Client *c;
-
-	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
-	if (n == 0)
-		return;
-	if (n > m->nmaster) {
-		mh = m->nmaster ? m->mfact * m->wh : 0;
-		th = (m->wh - mh) / (n - m->nmaster);
-		ty = m->wy + mh;
-	} else {
-		th = mh = m->wh;
-		ty = m->wy;
-	}
-	for (i = mx = 0, tx = m->wx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
-		if (i < m->nmaster) {
-			w = (m->ww - mx) / (MIN(n, m->nmaster) - i);
-			resize(c, m->wx + mx, m->wy, w - (2 * c->bw), mh - (2 * c->bw), 0);
-			mx += WIDTH(c);
-		} else {
-			resize(c, tx, ty, m->ww - (2 * c->bw), th - (2 * c->bw), 0);
-			if (th != m->wh)
-				ty += HEIGHT(c);
-		}
-	}
-}
-
-void
-centeredmaster(Monitor *m)
-{
-	unsigned int i, n, h, mw, mx, my, oty, ety, tw;
-	Client *c;
-
-	/* count number of clients in the selected monitor */
-	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
-	if (n == 0)
-		return;
-
-	/* initialize areas */
-	mw = m->ww - m->gappx;
-	mx = m->gappx;
-	my = m->gappx;
-	tw = mw;
-
-	if (n > m->nmaster) {
-		/* go mfact box in the center if more than nmaster clients */
-          mw = m->nmaster ? ((m->ww * m->mfact) - m->gappx) : m->gappx;
-          tw = m->ww -  mw - m->gappx;
-
-		if (n - m->nmaster > 1) {
-			/* only one client */
-			mx = (m->ww - mw - m->gappx) / 2;
-			tw = (m->ww - mw - m->gappx) / 2;
-		}
-	}
-
-	oty = m->gappx;
-	ety = m->gappx;
-	for (i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
-	if (i < m->nmaster) {
-		/* nmaster clients are stacked vertically, in the center
-		 * of the screen */
-		h = (m->wh - my) / (MIN(n, m->nmaster) - i) - m->gappx;
-		resize(c, m->wx + mx + m->gappx,
-                       m->wy + my,
-                       mw - (2*c->bw) - m->gappx,
-		       h - (2*c->bw), 0);
-		my += HEIGHT(c) + m->gappx;
-	} else {
-		/* stack clients are stacked vertically */
-		if ((i - m->nmaster) % 2 ) {
-			h = (m->wh - ety) / ( (1 + n - i) / 2) - m->gappx;
-			resize(c,
-                               m->wx + m->gappx,
-                               m->wy + ety,
-                               tw - (2*c->bw) - m->gappx,
-			       h - (2*c->bw), 0);
-			ety += HEIGHT(c) + m->gappx;
-		} else {
-			h = (m->wh - oty) / ((1 + n - i) / 2) - m->gappx;
-			resize(c,
-                               m->wx + mx + mw + m->gappx,
-                               m->wy + oty,
-			       tw - (2*c->bw) -  m->gappx,
-                               h - (2*c->bw),
-                               0);
-			oty += HEIGHT(c) + m->gappx;
-		}
-	}
-}
-
-void
-centeredfloatingmaster(Monitor *m)
-{
-	unsigned int i, n, w, mh, mw, mx, mxo, my, myo, tx;
-	Client *c;
-
-	/* count number of clients in the selected monitor */
-	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
-	if (n == 0)
-		return;
-
-	/* initialize nmaster area */
-	if (n > m->nmaster) {
-		/* go mfact box in the center if more than nmaster clients */
-		if (m->ww > m->wh) {
-			mw = m->nmaster ? m->ww * m->mfact : 0;
-			mh = m->nmaster ? m->wh * 0.9 : 0;
-		} else {
-			mh = m->nmaster ? m->wh * m->mfact : 0;
-			mw = m->nmaster ? m->ww * 0.9 : 0;
-		}
-		mx = mxo = (m->ww - mw) / 2;
-		my = myo = (m->wh - mh) / 2;
-	} else {
-		/* go fullscreen if all clients are in the master area */
-		mh = m->wh;
-		mw = m->ww;
-		mx = mxo = 0;
-		my = myo = 0;
-	}
-
-	for(i = tx = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
-	if (i < m->nmaster) {
-		/* nmaster clients are stacked horizontally, in the center
-		 * of the screen */
-		w = (mw + mxo - mx) / (MIN(n, m->nmaster) - i);
-		resize(c, m->wx + mx, m->wy + my, w - (2*c->bw),
-		       mh - (2*c->bw), 0);
-		mx += WIDTH(c);
-	} else {
-		/* stack clients are stacked horizontally */
-		w = (m->ww - tx) / (n - i);
-		resize(c, m->wx + tx, m->wy, w - (2*c->bw),
-		       m->wh - (2*c->bw), 0);
-		tx += WIDTH(c);
-	}
-}

@@ -1,4 +1,6 @@
 /* See LICENSE file for copyright and license details. */
+#include "movestack.c"
+#include "push.c"
 
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
@@ -42,9 +44,9 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
 	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
-	{ NULL,  NULL,       "Mu4e",       1 << 7,       0,           -1 },
+	{ "Surf",     NULL,       NULL,       1 << 8,       0,           -1 },
+	{ NULL,       NULL,       "Mu4e",     1 << 7,       0,           -1 },
 };
 
 /* layout(s) */
@@ -57,8 +59,8 @@ static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "  ",      tile },    /* first entry is default */
 	{ "  ",      monocle },
-	{ "TTT",      bstack },
-	{ "===",      bstackhoriz },
+	{ " T ",      bstack },
+	{ " = ",      bstackhoriz },
 	{ "|M|",      centeredmaster },
 	{ ">M>",      centeredfloatingmaster },
 
@@ -89,16 +91,23 @@ static Key keys[] =
    { MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
    /* { MODKEY,			XK_Return, spawn,          {.v = termcmd } }, */
    { MODKEY,             XK_b,      togglebar,      {0} },
-   { MODKEY,             XK_j,      focusstack,     {.i = +1 } },
-   { MODKEY,             XK_k,      focusstack,     {.i = -1 } },
+   { MODKEY,             XK_Tab,    focusstack,     {.i = +1 } },
+   { MODKEY|ShiftMask,   XK_Tab,    focusstack,     {.i = -1 } },
+   { MODKEY|ShiftMask,   XK_j,      movestack,      {.i = +1 } },
+   { MODKEY|ShiftMask,   XK_k,      movestack,      {.i = -1 } },
+ { MODKEY|ControlMask,           XK_j,      pushdown,       {0} },
+	{ MODKEY|ControlMask,           XK_k,      pushup,         {0} },
+
+   /*   { MODKEY,             XK_j,      focusstack,     {.i = +1 } },
+   { MODKEY,             XK_k,      focusstack,     {.i = -1 } }, */
    { MODKEY,             XK_period, incnmaster,     {.i = +1 } },
    { MODKEY,             XK_comma,  incnmaster,     {.i = -1 } },
    { MODKEY,             XK_h,      setmfact,       {.f = -0.05} },
    { MODKEY,             XK_l,      setmfact,       {.f = +0.05} },
-   { MODKEY,             XK_Tab,    view,           {0} },
-   { MODKEY,	         XK_q,      killclient,     {0} },
-   { MODKEY,	         XK_space,  zoom,      {0} },
-   { MODKEY|ShiftMask,   XK_space, cyclelayout,    {.i = +1 } },
+   // { MODKEY,             XK_Tab,    view,           {0} },
+   { MODKEY,	         XK_q,        killclient,     {0} },
+   { MODKEY,	         XK_space,    zoom,           {0} },
+   { MODKEY|ShiftMask,   XK_space,  cyclelayout,    {.i = +1 } },
    { MODKEY,             XK_t,      setlayout,      {.v = &layouts[0]} },
    { MODKEY,             XK_f,      setlayout,      {.v = &layouts[1]} },
    { MODKEY|ShiftMask,   XK_t,      setlayout,      {.v = &layouts[2]} },
