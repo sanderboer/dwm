@@ -1,6 +1,6 @@
 * My dwm build
 
-I forked ot from Luke Smith's dwm fork and I am pretty sure it was based on 6.1-ish.
+I forked this from Luke Smith's dwm fork and I am pretty sure it was based on 6.1-ish. I plan on rebasing it on suckless' master, but seeing the amount of patching I have done, I should do that sooner than later.
 
 I applied / hacked some patches:
 
