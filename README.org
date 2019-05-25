@@ -7,7 +7,7 @@ I applied / hacked some patches:
 - full gaps
 - bottom stack
 - centered master (edited to have gaps)
-- status bar ( hacked with padding, no transparency though )
+- systray in statusbar ( hacked with padding, no transparency though )
 - transparency in status bar
 - noborder
 - movestack
