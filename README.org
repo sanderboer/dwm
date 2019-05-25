@@ -12,7 +12,9 @@ I applied / hacked some patches:
 - noborder
 - movestack
 
-I removed the drawing of the current window title in the status bar.
+I removed the drawing of the current window title in the status bar because nothing is more redundant. Also, I include a file theme.h that is managed by zenbu for the colors.
+I just noticed a patch that alows for dwm to be started with the colors as arguments, I should work that in when I port to master.
+
 
 Screen shot:
 
