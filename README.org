@@ -4,16 +4,15 @@ I forked this from Luke Smith's dwm fork and I am pretty sure it was based on 6.
 
 I applied / hacked some patches:
 
-- full gaps
+- full gaps (ru-gaps)
 - bottom stack
-- centered master (edited to have gaps)
+- centered master (ru-gaps version)
 - systray in statusbar ( hacked with padding, no transparency though )
-- transparency in status bar
+- transparency in status bar (need to hack systray to have transparency, but that is harder than it looks...)
 - noborder
 - movestack
-
-I removed the drawing of the current window title in the status bar because nothing is more redundant. Also, I include a file theme.h that is managed by zenbu for the colors.
-I just noticed a patch that alows for dwm to be started with the colors as arguments, I should work that in when I port to master.
+- xrdb
+- notitle
 
 
 Screen shot:
