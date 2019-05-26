@@ -23,6 +23,7 @@
 #include <X11/Xatom.h>
 #include <X11/Xlib.h>
 #include <X11/Xproto.h>
+#include <X11/Xresource.h>
 #include <X11/Xutil.h>
 #include <X11/cursorfont.h>
 #include <X11/keysym.h>
@@ -78,7 +79,22 @@
 #define VERSION_MAJOR 0
 #define VERSION_MINOR 0
 #define XEMBED_EMBEDDED_VERSION (VERSION_MAJOR << 16) | VERSION_MINOR
-
+#define XRDB_LOAD_COLOR(R,V)    if (XrmGetResource(xrdb, R, NULL, &type, &value) == True) { \
+    if (value.addr != NULL && strnlen(value.addr, 8) == 7 && value.addr[0] == '#') { \
+      int i = 1;                                                        \
+      for (; i <= 6; i++) {                                             \
+        if (value.addr[i] < 48) break;                                  \
+        if (value.addr[i] > 57 && value.addr[i] < 65) break;            \
+        if (value.addr[i] > 70 && value.addr[i] < 97) break;            \
+        if (value.addr[i] > 102) break;                                 \
+      }                                                                 \
+      if (i == 7) {                                                     \
+        strncpy(V, value.addr, 7);                                      \
+        V[7] = '\0';                                                    \
+      }                                                                 \
+    }                                                                   \
+  }
+ 
 /* enums */
 enum
 {
@@ -263,6 +279,7 @@ static void grabkeys(void);
 static void incnmaster(const Arg *arg);
 static void keypress(XEvent *e);
 static void killclient(const Arg *arg);
+static void loadxrdb(void);
 static void manage(Window w, XWindowAttributes *wa);
 static void mappingnotify(XEvent *e);
 static void maprequest(XEvent *e);
@@ -331,6 +348,7 @@ static int xerror(Display *dpy, XErrorEvent *ee);
 static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void xinitvisual();
+static void xrdb(const Arg *arg);
 static void zoom(const Arg *arg);
 static void runAutostart(void);
 static void bstack(Monitor *m);
@@ -2174,6 +2192,23 @@ void togglefloating(const Arg *arg)
 }
 
 void
+loadxrdb()
+{
+  XrmDatabase xrdb = XrmGetFileDatabase(xres);
+  if (xrdb != NULL) {
+    char *type;
+    XrmValue value;
+
+    XRDB_LOAD_COLOR("dwm.dmenufont", dmenufont);
+    XRDB_LOAD_COLOR("dwm.col_gray1", col_gray1);
+    XRDB_LOAD_COLOR("dwm.col_gray2", col_gray2);
+    XRDB_LOAD_COLOR("dwm.col_gray3", col_gray3);
+    XRDB_LOAD_COLOR("dwm.col_gray4", col_gray4);
+    XRDB_LOAD_COLOR("dwm.col_cyan", col_cyan);
+  }
+}
+
+void
 togglescratch(const Arg *arg)
 {
   Client *c;
@@ -2854,6 +2889,32 @@ Monitor *systraytomon(Monitor *m)
   return t;
 }
 
+void
+xrdb(const Arg *arg)
+{
+  loadxrdb();
+  colors[SchemeNorm][ColFg]     = col_gray3;
+  colors[SchemeNorm][ColBg]     = col_gray1;
+  colors[SchemeNorm][ColBorder] = col_gray2;
+  colors[SchemeSel][ColFg]      = col_gray4;
+  colors[SchemeSel][ColBg]      = col_cyan;
+  colors[SchemeSel][ColBorder]  = col_cyan;
+  
+
+for (int i = 0; i < LENGTH(colors); i++)
+    scheme[i] = drw_scm_create(drw, colors[i], alphas[i], 3);
+
+  // scheme[SchemeNorm]->fg = drw_clr_create(drw, col_gray3);
+  // scheme[SchemeNorm]->bg = drw_clr_create(drw, col_gray1);
+  // scheme[SchemeNorm]->border = drw_clr_create(drw, col_gray2);
+  // scheme[SchemeSel]->fg = drw_clr_create(drw, col_gray4);
+  // scheme[SchemeSel]->bg = drw_clr_create(drw, col_cyan);
+  // scheme[SchemeSel]->border = drw_clr_create(drw, col_cyan);
+
+  focus(NULL);
+  arrange(NULL);
+}
+
 void zoom(const Arg *arg)
 {
   Client *c = selmon->sel;
@@ -2884,6 +2945,7 @@ int main(int argc, char *argv[])
   if (!(dpy = XOpenDisplay(NULL)))
     die("dwm: cannot open display");
   checkotherwm();
+  loadxrdb();
   setup();
 #ifdef __OpenBSD__
   if (pledge("stdio rpath proc exec", NULL) == -1)
