@@ -61,9 +61,7 @@
 #define HEIGHT(X) ((X)->h + 2 * (X)->bw)
 #define TAGMASK ((1 << LENGTH(tags)) - 1)
 #define TEXTW(X) (drw_fontset_getwidth(drw, (X)) + lrpad)
-
 #define OPAQUE 0xffU
-
 #define SYSTEM_TRAY_REQUEST_DOCK 0
 
 /* XEMBED messages */
@@ -2199,12 +2197,12 @@ loadxrdb()
     char *type;
     XrmValue value;
 
-    XRDB_LOAD_COLOR("dwm.dmenufont", dmenufont);
+    //  XRDB_LOAD_COLOR("dwm.dmenufont", dmenufont);
     XRDB_LOAD_COLOR("dwm.col_gray1", col_gray1);
     XRDB_LOAD_COLOR("dwm.col_gray2", col_gray2);
     XRDB_LOAD_COLOR("dwm.col_gray3", col_gray3);
     XRDB_LOAD_COLOR("dwm.col_gray4", col_gray4);
-    XRDB_LOAD_COLOR("dwm.col_cyan", col_cyan);
+    XRDB_LOAD_COLOR("dwm.col_cyan",  col_cyan);
   }
 }
 

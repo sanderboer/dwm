@@ -15,15 +15,16 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int bar_padding        = 4; /* #pixels added to bar font height */
 // #include "/home/sander/.dwm/theme.h"
-static char dmenufont[]       = "monospace:size=10";
+static char dmenufont[]       = "DroidSansMonoNerdFontMono:size=10";
 static char col_gray1[]       = "#222222";
 static char col_gray2[]       = "#444444";
 static char col_gray3[]       = "#bbbbbb";
 static char col_gray4[]       = "#eeeeee";
-static char col_cyan[]        = "#005577";
+static char col_cyan[]        = "#ee8000";
 
 static const unsigned int baralpha = 0xf0;
 
+static const char *xres = "/home/sander/.Xresources";
 // static const char *fonts[] = { dmenufont };
 static char *fonts[] = { dmenufont };
 static const unsigned int borderalpha = OPAQUE;
@@ -155,4 +156,3 @@ static Button buttons[] =
    { ClkTagBar,     MODKEY, Button3, toggletag,      {0} },
   };
 
-static const char *xres = "/home/USERNAME/.Xresources";
