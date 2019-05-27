@@ -20,3 +20,4 @@ Screen shot:
 
 [[./screenshot.png]]
 
+credit background: [[http://www.jamesjean.com/work2014/][James Jean - Seasons(2014).]] 
