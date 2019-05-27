@@ -2196,8 +2196,14 @@ loadxrdb()
   if (xrdb != NULL) {
     char *type;
     XrmValue value;
-
-    //  XRDB_LOAD_COLOR("dwm.dmenufont", dmenufont);
+    // the macro is actually a sanitizer to make sure it returns a hex color.
+  // if (XrmGetResource(xrdb, "dwm.dmenufont", NULL, &type, &value) == True)
+  // {
+  //   if (value.addr != NULL )
+  //   {
+  //     strncpy(dmenufont, value.addr, strnlen(value.addr, 8) );  
+  //   }
+  // }
     XRDB_LOAD_COLOR("dwm.col_gray1", col_gray1);
     XRDB_LOAD_COLOR("dwm.col_gray2", col_gray2);
     XRDB_LOAD_COLOR("dwm.col_gray3", col_gray3);
@@ -2891,24 +2897,18 @@ void
 xrdb(const Arg *arg)
 {
   loadxrdb();
+  fonts[0] = dmenufont ;
+  // if (!drw_fontset_create(drw, fonts, LENGTH(fonts) ) )
+  //   die("no fonts could be loaded.");
+  // fonts are not updated ...
   colors[SchemeNorm][ColFg]     = col_gray3;
   colors[SchemeNorm][ColBg]     = col_gray1;
   colors[SchemeNorm][ColBorder] = col_gray2;
   colors[SchemeSel][ColFg]      = col_gray4;
   colors[SchemeSel][ColBg]      = col_cyan;
   colors[SchemeSel][ColBorder]  = col_cyan;
-  
-
-for (int i = 0; i < LENGTH(colors); i++)
+  for (int i = 0; i < LENGTH(colors); i++)
     scheme[i] = drw_scm_create(drw, colors[i], alphas[i], 3);
-
-  // scheme[SchemeNorm]->fg = drw_clr_create(drw, col_gray3);
-  // scheme[SchemeNorm]->bg = drw_clr_create(drw, col_gray1);
-  // scheme[SchemeNorm]->border = drw_clr_create(drw, col_gray2);
-  // scheme[SchemeSel]->fg = drw_clr_create(drw, col_gray4);
-  // scheme[SchemeSel]->bg = drw_clr_create(drw, col_cyan);
-  // scheme[SchemeSel]->border = drw_clr_create(drw, col_cyan);
-
   focus(NULL);
   arrange(NULL);
 }
