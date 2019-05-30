@@ -97,10 +97,10 @@ static Key keys[] =
    /* { MODKEY,			XK_Return, spawn,          {.v = termcmd } }, */
    { MODKEY,             XK_b,      togglebar,      {0} },
    { MODKEY,             XK_Tab,    focusstack,     {.i = +1 } },
-   { MODKEY|ShiftMask,   XK_Tab,    focusstack,     {.i = -1 } },
+   /* { MODKEY|ShiftMask,   XK_Tab,    focusstack,     {.i = -1 } }, */
    { MODKEY|ShiftMask,   XK_j,      movestack,      {.i = +1 } },
    { MODKEY|ShiftMask,   XK_k,      movestack,      {.i = -1 } },
-   { MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
+   { MODKEY,             XK_grave,  togglescratch,  {.v = scratchpadcmd } },
    /*   { MODKEY,             XK_j,      focusstack,     {.i = +1 } },
    { MODKEY,             XK_k,      focusstack,     {.i = -1 } }, */
    { MODKEY,             XK_period, incnmaster,     {.i = +1 } },
@@ -131,10 +131,12 @@ static Key keys[] =
    TAGKEYS(              XK_8,                      7)
    TAGKEYS(              XK_9,                      8)
    { MODKEY|ShiftMask,   XK_q,      quit,           {0} },
-   /* { MODKEY,                       XK_comma,  focusmon,       {.i = -1 } }, */
-   /* { MODKEY,                       XK_period, focusmon,       {.i = +1 } }, */
-   /* { MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } }, */
-   /* { MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } }, */
+   { MODKEY|ControlMask|ShiftMask, XK_q,      quit, {1} },
+
+   { MODKEY|ControlMask, XK_Tab,   focusmon,       {.i = -1 } },
+   { MODKEY|ShiftMask,   XK_Tab,   tagmon,         {.i = -1 } },
+   /* { MODKEY|ControlMask, XK_Right,  focusmon,       {.i = +1 } }, */
+   /* { MODKEY|ShiftMask,   XK_Right,  tagmon,         {.i = +1 } }, */
    /* { MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } }, */
   };
 
