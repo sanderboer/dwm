@@ -90,7 +90,7 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *termcmd[]  = { "st", NULL };
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
- 
+
 static Key keys[] =
   {
    /* modifier                     key        function        argument */
@@ -100,7 +100,7 @@ static Key keys[] =
    { MODKEY|ShiftMask,   XK_k,      movestack,      {.i = -1 } },
    { ControlMask,        XK_grave,  togglescratch,  {.v = scratchpadcmd } },
    { MODKEY,             XK_j,      focusstack,     {.i = +1 } },
-   { MODKEY,             XK_k,      focusstack,     {.i = -1 } }, 
+   { MODKEY,             XK_k,      focusstack,     {.i = -1 } },
    { MODKEY,             XK_period, incnmaster,     {.i = +1 } },
    { MODKEY,             XK_comma,  incnmaster,     {.i = -1 } },
    { MODKEY,             XK_h,      setmfact,       {.f = -0.05} },
@@ -108,11 +108,11 @@ static Key keys[] =
    { MODKEY,	           XK_q,      killclient,     {0} },
    { MODKEY,	           XK_space,  zoom,           {0} },
    { MODKEY|ShiftMask,   XK_space,  cyclelayout,    {.i = +1 } },
-   { MODKEY,             XK_t,      setlayout,      {.v = &layouts[0]} },
-   { MODKEY,             XK_f,      setlayout,      {.v = &layouts[1]} },
-   { MODKEY|ShiftMask,   XK_t,      setlayout,      {.v = &layouts[2]} },
-   { MODKEY,             XK_c,      setlayout,      {.v = &layouts[4]} },
-   { MODKEY|ShiftMask,   XK_c,      setlayout,      {.v = &layouts[5]} },
+   { ControlMask|ShiftMask,   XK_1,      setlayout,      {.v = &layouts[0]} },
+   { ControlMask|ShiftMask,   XK_2,      setlayout,      {.v = &layouts[1]} },
+   { ControlMask|ShiftMask,   XK_3,      setlayout,      {.v = &layouts[2]} },
+   { ControlMask|ShiftMask,   XK_4,      setlayout,      {.v = &layouts[4]} },
+   { ControlMask|ShiftMask,   XK_5,      setlayout,      {.v = &layouts[5]} },
    { MODKEY,             XK_0,      view,           {.ui = ~0 } },
    { MODKEY|ShiftMask,   XK_0,      tag,            {.ui = ~0 } },
    { MODKEY,             XK_a,      setgaps,        {.i = -1 } },
