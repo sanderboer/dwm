@@ -94,30 +94,30 @@ static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34
 static Key keys[] =
   {
    /* modifier                     key        function        argument */
-   { MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
-   { MODKEY,             XK_b,      togglebar,      {0} },
-   { MODKEY|ShiftMask,   XK_j,      movestack,      {.i = +1 } },
-   { MODKEY|ShiftMask,   XK_k,      movestack,      {.i = -1 } },
-   { ControlMask,        XK_grave,  togglescratch,  {.v = scratchpadcmd } },
-   { MODKEY,             XK_j,      focusstack,     {.i = +1 } },
-   { MODKEY,             XK_k,      focusstack,     {.i = -1 } },
-   { MODKEY,             XK_period, incnmaster,     {.i = +1 } },
-   { MODKEY,             XK_comma,  incnmaster,     {.i = -1 } },
-   { MODKEY,             XK_h,      setmfact,       {.f = -0.05} },
-   { MODKEY,             XK_l,      setmfact,       {.f = +0.05} },
-   { MODKEY,	           XK_q,      killclient,     {0} },
-   { MODKEY,	           XK_space,  zoom,           {0} },
-   { MODKEY|ShiftMask,   XK_space,  cyclelayout,    {.i = +1 } },
-   { ControlMask|ShiftMask,   XK_1,      setlayout,      {.v = &layouts[0]} },
-   { ControlMask|ShiftMask,   XK_2,      setlayout,      {.v = &layouts[1]} },
-   { ControlMask|ShiftMask,   XK_3,      setlayout,      {.v = &layouts[2]} },
-   { ControlMask|ShiftMask,   XK_4,      setlayout,      {.v = &layouts[4]} },
-   { ControlMask|ShiftMask,   XK_5,      setlayout,      {.v = &layouts[5]} },
-   { MODKEY,             XK_0,      view,           {.ui = ~0 } },
-   { MODKEY|ShiftMask,   XK_0,      tag,            {.ui = ~0 } },
-   { MODKEY,             XK_a,      setgaps,        {.i = -1 } },
-   { MODKEY,             XK_s,      setgaps,        {.i = +1 } },
-   { MODKEY,             XK_F5,     xrdb,           {.v = NULL } },
+    //  { MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
+    // { MODKEY,             XK_b,      togglebar,      {0} },
+    //   { MODKEY|ShiftMask,   XK_j,      movestack,      {.i = +1 } },
+    // { MODKEY|ShiftMask,   XK_k,      movestack,      {.i = -1 } },
+   //   { ControlMask,        XK_grave,  togglescratch,  {.v = scratchpadcmd } },
+   //   { MODKEY,             XK_j,      focusstack,     {.i = +1 } },
+   //   { MODKEY,             XK_k,      focusstack,     {.i = -1 } },
+   //  { MODKEY,             XK_period, incnmaster,     {.i = +1 } },
+   //  { MODKEY,             XK_comma,  incnmaster,     {.i = -1 } },
+   //  { MODKEY,             XK_h,      setmfact,       {.f = -0.05} },
+   //  { MODKEY,             XK_l,      setmfact,       {.f = +0.05} },
+   //   { MODKEY,	           XK_q,      killclient,     {0} },
+   //  { MODKEY,	           XK_space,  zoom,           {0} },
+   //  { MODKEY|ShiftMask,   XK_space,  cyclelayout,    {.i = +1 } },
+   //  { ControlMask|ShiftMask,   XK_1,      setlayout,      {.v = &layouts[0]} },
+   //  { ControlMask|ShiftMask,   XK_2,      setlayout,      {.v = &layouts[1]} },
+   //  { ControlMask|ShiftMask,   XK_3,      setlayout,      {.v = &layouts[2]} },
+   //  { ControlMask|ShiftMask,   XK_4,      setlayout,      {.v = &layouts[4]} },
+   //  { ControlMask|ShiftMask,   XK_5,      setlayout,      {.v = &layouts[5]} },
+   //  { MODKEY,             XK_0,      view,           {.ui = ~0 } },
+   //  { MODKEY|ShiftMask,   XK_0,      tag,            {.ui = ~0 } },
+   //  { MODKEY,             XK_a,      setgaps,        {.i = -1 } },
+   //  { MODKEY,             XK_s,      setgaps,        {.i = +1 } },
+   // { MODKEY,             XK_F5,     xrdb,           {.v = NULL } },
    TAGKEYS(              XK_1,                      0)
    TAGKEYS(              XK_2,                      1)
    TAGKEYS(              XK_3,                      2)
@@ -127,10 +127,10 @@ static Key keys[] =
    TAGKEYS(              XK_7,                      6)
    TAGKEYS(              XK_8,                      7)
    TAGKEYS(              XK_9,                      8)
-   { MODKEY|ShiftMask,   XK_q,      quit,           {1} },
-   { MODKEY|ControlMask|ShiftMask, XK_q,      quit, {0} },
-   { MODKEY,             XK_Tab,   focusmon,       {.i = -1 } },
-   { MODKEY|ShiftMask,   XK_Tab,   tagmon,         {.i = -1 } },
+   //  { MODKEY|ShiftMask,   XK_q,      quit,           {1} },
+   //  { MODKEY|ControlMask|ShiftMask, XK_q,      quit, {0} },
+   //  { MODKEY,             XK_Tab,   focusmon,       {.i = -1 } },
+   //  { MODKEY|ShiftMask,   XK_Tab,   tagmon,         {.i = -1 } },
    /* { MODKEY|ShiftMask,   XK_Right,  tagmon,         {.i = +1 } }, */
    /* { MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } }, */
   };
@@ -152,4 +152,85 @@ static Button buttons[] =
    { ClkTagBar,     MODKEY, Button1, tag,            {0} },
    { ClkTagBar,     MODKEY, Button3, toggletag,      {0} },
   };
+
+void
+setlayoutex(const Arg *arg)
+{
+	setlayout(&((Arg) { .v = &layouts[arg->i] }));
+}
+
+void
+viewex(const Arg *arg)
+{
+	view(&((Arg) { .ui = 1 << arg->ui }));
+}
+
+void
+viewall(const Arg *arg)
+{
+	view(&((Arg){.ui = ~0}));
+}
+
+void
+toggleviewex(const Arg *arg)
+{
+	toggleview(&((Arg) { .ui = 1 << arg->ui }));
+}
+
+void
+tagex(const Arg *arg)
+{
+	tag(&((Arg) { .ui = 1 << arg->ui }));
+}
+
+void
+toggletagex(const Arg *arg)
+{
+	toggletag(&((Arg) { .ui = 1 << arg->ui }));
+}
+
+void
+tagall(const Arg *arg)
+{
+	tag(&((Arg){.ui = ~0}));
+}
+
+void scratchpad()
+{
+  togglescratch( scratchpadcmd );
+  
+}
+/* signal definitions */
+/* signum must be greater than 0 */
+/* trigger signals using `xsetroot -name "fsignal:<signame> [<type> <value>]"` */
+static Signal signals[] = {
+	/* signum           function */
+	{ "cyclelayout",    cyclelayout },
+	{ "focusstack",     focusstack },
+	{ "focusmon",       focusmon },
+	{ "incnmaster",     incnmaster },
+	{ "killclient",     killclient },
+	{ "movestack",      movestack},
+	{ "setgaps",        setgaps },
+	{ "setlayout",      setlayout },
+	{ "setlayoutex",    setlayoutex },
+	{ "setmfact",       setmfact },
+	{ "tag",            tag },
+	{ "tagall",         tagall },
+	{ "tagex",          tagex },
+	{ "tagmon",         tagmon },
+	{ "togglebar",      togglebar },
+	{ "togglefloating", togglefloating },
+	{ "scratchpad",     scratchpad },
+	{ "toggleview",     view },
+	{ "toggleviewex",   toggleviewex },
+	{ "toggletagex",    toggletagex },
+	{ "toggletag",      tag },
+	{ "view",           view },
+	{ "viewall",        viewall },
+	{ "viewex",         viewex },
+	{ "xrdb",           xrdb },
+	{ "quit",           quit },
+	{ "zoom",           zoom },
+};
 
