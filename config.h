@@ -26,7 +26,7 @@ static const unsigned int baralpha = 0xf0;
 
 static const char *xres = "/home/sander/.Xresources";
 // static const char *fonts[] = { dmenufont };
-static char *fonts[] = { dmenufont };
+static char *fonts[] = { dmenufont, "all-the-icons:pixelsize=10:antialias=true:autohint=true" , "Weather Icons:pixelsize=10:antialias=true:autohint=true", "FontAwesome:pixelsize=10:antialias=true:autohint=true", "file-icons:pixelsize=10:antialias=true:autohint=true", "Material Icons:pixelsize=10:antialias=true:autohint=true", "github-octicons:pixelsize=10:antialias=true:autohint=true" };
 static const unsigned int borderalpha = OPAQUE;
 static char *colors[][3]      = {
 	/*               fg         bg         border   */
