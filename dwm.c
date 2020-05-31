@@ -403,8 +403,7 @@ static Colormap cmap;
 static unsigned int scratchtag = 1 << LENGTH(tags);
 
 /* compile-time check if all tags fit into an unsigned int bit array. */
-struct NumTags
-{
+struct NumTags{
   char limitexceeded[LENGTH(tags) > 31 ? -1 : 1];
 };
 
@@ -2415,7 +2414,6 @@ void updateclientlist()
 int updategeom(void)
 {
   int dirty = 0;
-
 #ifdef XINERAMA
   if (XineramaIsActive(dpy))
   {
