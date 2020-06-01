@@ -112,7 +112,7 @@ static Key keys[] = {
 //	{ MODKEY,        		XK_grave,  togglescratch,  {.ui = 0 } },
 //	{ MODKEY,            		XK_u,	   togglescratch,  {.ui = 1 } },
 //	{ MODKEY,            		XK_x,	   togglescratch,  {.ui = 2 } },
-
+	{ MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
 	{ MODKEY,                       XK_minus,  setgaps,        {.i = -1 } },
 	{ MODKEY,                       XK_equal,  setgaps,        {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
