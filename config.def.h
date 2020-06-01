@@ -18,8 +18,8 @@ static char normfgcolor[]           = "#bbbbbb";
 static char selbgcolor[]            = "#000000";
 static char selfgcolor[]            = "#eeeeee";
 static char selbordercolor[]        = "#770000";
-static const char *fonts[]          = { "monospace:size=10", "JoyPixels:pixelsize=10:antialias=true:autohint=true"  };
 static const char dmenufont[]       = "monospace:size=10";
+static const char *fonts[]          = { dmenufont, "JoyPixels:pixelsize=10:antialias=true:autohint=true"  };
 static char *colors[][3] = {
        /*               fg           bg           border   */
        [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
@@ -32,7 +32,7 @@ typedef struct {
 } Sp;
 const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
 const char *spcmd2[] = {"st", "-n", "spfm", "-g", "120x34", "-e", "ranger", NULL };
-const char *spcmd3[] = {"st","-n", "sppython","-g","120x34", "-e", "python3", NULL };
+const char *spcmd3[] = {"st","-n", "sppython","-g","120x34", "-e", "ipython", NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
 	{"spterm",      spcmd1},
