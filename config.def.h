@@ -68,7 +68,7 @@ static const Layout layouts[] = {
 };
 
 /* key definitions */
-#define NOTITLE
+// #define NOTITLE
 #define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
