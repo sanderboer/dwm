@@ -31,7 +31,7 @@ typedef struct {
 	const void *cmd;
 } Sp;
 const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
-const char *spcmd2[] = {"urxvt", "-n", "spfm", "-g", "120x34", "-e", "ranger", NULL };
+const char *spcmd2[] = {"urxvt", "-fn","xft:DroidSansNerdzFontMono:size=14", "-name", "spfm", "-g", "120x34", "-e", "ranger", NULL };
 const char *spcmd3[] = {"st","-n", "sppython","-g","120x34", "-e", "ipython", NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
