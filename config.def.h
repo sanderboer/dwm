@@ -12,6 +12,7 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int horizpadbar        = 2;        /* horizontal padding for statusbar */
 static const int vertpadbar         = 4;        /* vertical padding for statusbar */
+static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
 static char normbgcolor[]           = "#222222";
 static char normbordercolor[]       = "#444444";
 static char normfgcolor[]           = "#bbbbbb";
@@ -30,8 +31,9 @@ typedef struct {
 	const char *name;
 	const void *cmd;
 } Sp;
+
 const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
-const char *spcmd2[] = {"urxvt", "-fn","xft:DroidSansNerdzFontMono:size=14", "-name", "spfm", "-g", "120x34", "-e", "ranger", NULL };
+const char *spcmd2[] = {"urxvt", "-fn","xft:DroidSansMono\ Nerd\ Font\ Mono:size=14", "-name", "spfm", "-g", "120x34", "-e", "ranger", NULL };
 const char *spcmd3[] = {"st","-n", "sppython","-g","120x34", "-e", "ipython", NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
@@ -47,12 +49,16 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,         NULL,     0,	 1,  -1 },
-	{ "Firefox",  NULL,         NULL,     1 << 8,	 0,  -1 },
-	{ NULL,       "spterm",     NULL,     SPTAG(0),  1,  -1 },
-	{ NULL,       "spfm",	    NULL,     SPTAG(1),  1,  -1 },
-	{ NULL,       "sppython",   NULL,     SPTAG(2),  1,  -1 },
+	/* class     instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
+	{ "Gimp",    NULL,     NULL,           0,         1,          0,           0,        -1 },
+	{ "Firefox", NULL,     NULL,           1 << 8,    0,          0,          -1,        -1 },
+	{ "st",      NULL,     NULL,           0,         0,          1,          -1,        -1 },
+	{ NULL,      NULL,     "Event Tester", 0,         1,          0,           1,        -1 }, /* xev */
+	{ NULL,      "spterm", NULL,           SPTAG(0),  1,          0,           1,        -1 },
+	{ NULL,      "spfm",	 NULL,           SPTAG(1),  1,          0,           1,        -1 },
+	{ NULL,     "sppython",NULL,           SPTAG(2),  1,          0,           1,        -1 },
+
+
 };
 
 /* layout(s) */
