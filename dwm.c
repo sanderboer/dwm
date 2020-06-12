@@ -272,6 +272,7 @@ static void setup(void);
 static void seturgent(Client *c, int urg);
 static void showhide(Client *c);
 static void shiftview(const Arg *Arg);
+static void shifttag(const Arg *Arg);
 static void sigchld(int unused);
 static void sighup(int unused);
 static void sigterm(int unused);
@@ -2767,6 +2768,31 @@ shiftview(const Arg *arg) {
 
 	view(&shifted);
 }
+
+void
+shifttag(const Arg *arg)
+{
+  if (arg->i > 0){
+ if(selmon->sel != NULL
+       && __builtin_popcount(selmon->tagset[selmon->seltags] & TAGMASK) == 1
+       && selmon->tagset[selmon->seltags] & (TAGMASK >> 1)) {
+      selmon->sel->tags <<= 1;
+      focus(NULL);
+      arrange(selmon);
+      //shiftview(arg);
+    }
+  }else{
+    if(selmon->sel != NULL
+       && __builtin_popcount(selmon->tagset[selmon->seltags] & TAGMASK) == 1
+       && selmon->tagset[selmon->seltags] > 1) {
+      selmon->sel->tags >>= 1;
+      focus(NULL);
+      arrange(selmon);
+      //shiftview(arg);
+    }
+  }
+}
+
 
 Client *
 swallowingclient(Window w)
