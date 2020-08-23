@@ -126,15 +126,24 @@ static Key keys[] = {
 	{ MODKEY,                       XK_equal,  setgaps,        {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
 
-	TAGKEYS(                        XK_1,                      0)
-	TAGKEYS(                        XK_2,                      1)
-	TAGKEYS(                        XK_3,                      2)
-	TAGKEYS(                        XK_4,                      3)
-	TAGKEYS(                        XK_5,                      4)
-	TAGKEYS(                        XK_6,                      5)
-	TAGKEYS(                        XK_7,                      6)
-	TAGKEYS(                        XK_8,                      7)
-	TAGKEYS(                        XK_9,                      8)
+  TAGKEYS( XK_1,    0)
+	TAGKEYS( XK_2,    1)
+	TAGKEYS( XK_3,    2)
+	TAGKEYS( XK_4,    3)
+	TAGKEYS( XK_5,    4)
+	TAGKEYS( XK_6,    5)
+	TAGKEYS( XK_7,    6)
+	TAGKEYS( XK_8,    7)
+	TAGKEYS( XK_9,    8)
+  TAGKEYS( XK_KP_1, 0)
+	TAGKEYS( XK_KP_2, 1)
+	TAGKEYS( XK_KP_3, 2)
+	TAGKEYS( XK_KP_4, 3)
+	TAGKEYS( XK_KP_5, 4)
+	TAGKEYS( XK_KP_6, 5)
+	TAGKEYS( XK_KP_7, 6)
+	TAGKEYS( XK_KP_8, 7)
+	TAGKEYS( XK_KP_9, 8)
 //	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 };
 
