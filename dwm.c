@@ -47,6 +47,12 @@
 #include "drw.h"
 #include "util.h"
 
+#if defined(__FreeBSD__)
+#include <libutil.h>
+#include <sys/user.h>
+#endif
+
+
 /* macros */
 #define BUTTONMASK              (ButtonPressMask|ButtonReleaseMask)
 #define CLEANMASK(mask)         (mask & ~(numlockmask|LockMask) & (ShiftMask|ControlMask|Mod1Mask|Mod2Mask|Mod3Mask|Mod4Mask|Mod5Mask))
@@ -2717,11 +2723,14 @@ getparentprocess(pid_t p)
 	fclose(f);
 #elif defined(__FreeBSD__)
 	struct kinfo_proc *proc = kinfo_getproc(p);
-	if (!proc)
-		return (pid_t)0;
 
-	v = proc->ki_ppid;
-	free(proc);
+	if (!proc)
+		{
+		return (pid_t)0;}
+	else{
+		v = proc->ki_ppid;
+		free(proc);
+	}
 #endif
 	return (pid_t)v;
 }
