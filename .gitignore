@@ -1,3 +1,7 @@
 *~
 *.o
 dwm
+*.orig
+*.rej
+config.h
+
