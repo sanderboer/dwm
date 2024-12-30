@@ -187,7 +187,7 @@ Only in dwm: config.h
  	XConfigureWindow(dpy, c->win, CWX|CWY|CWWidth|CWHeight|CWBorderWidth, &wc);
  	configure(c);
 +    roundcorners(c);
- 	XSync(dpy, False);
+ 	XSync(dpy, False);in
  }
  
 @@ -1351,6 +1375,9 @@
