@@ -311,7 +311,8 @@ static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void xrdb(const Arg *arg);
 static void zoom(const Arg *arg);
-void roundcorners(Client *c);
+void apply_rounded_mask(Client *c);
+void draw_border(Client *c);
 
 static pid_t getparentprocess(pid_t p);
 static int isdescprocess(pid_t p, pid_t c);
@@ -1134,8 +1135,8 @@ focus(Client *c)
 		detachstack(c);
 		attachstack(c);
 		grabbuttons(c, 1);
-    roundcorners(c);
 		/* XSetWindowBorder(dpy, c->win, scheme[SchemeSel][ColBorder].pixel); */
+    draw_border(c);
 		setfocus(c);
 	} else {
 		XSetInputFocus(dpy, root, RevertToPointerRoot, CurrentTime);
@@ -1504,7 +1505,7 @@ manage(Window w, XWindowAttributes *wa)
 	XConfigureWindow(dpy, w, CWBorderWidth, &wc);
 	XSetWindowBorder(dpy, w, scheme[SchemeNorm][ColBorder].pixel);
 	configure(c); /* propagates border_width, if size doesn't change */
-  roundcorners(c);
+  apply_rounded_mask(c);
 	updatewindowtype(c);
 	updatesizehints(c);
 	updatewmhints(c);
@@ -1868,7 +1869,10 @@ restack(Monitor *m)
 	XEvent ev;
 	XWindowChanges wc;
   for (c = m->stack; c; c = c->snext)
-    roundcorners(c);
+    {
+      apply_rounded_mask(c);
+    }
+  
 
 	drawbar(m);
 	if (!m->sel)
@@ -3125,139 +3129,107 @@ zoom(const Arg *arg)
 	pop(c);
 }
 
-void
-roundcorners_org(Client *c)
-{
-  Window w = c->win;
-  XWindowAttributes wa;
-  XGetWindowAttributes(dpy, w, &wa);
+void apply_rounded_mask(Client *c) {
+    int radius = cornerrad;
 
-  // If this returns null, the window is invalid.
-  if(!XGetWindowAttributes(dpy, w, &wa))
-    return;
-  int edge_px = 4;
-  int width =  edge_px * 2 + wa.width;
-  int height = edge_px * 2 + wa.height;
-  /* int width = win_attr.border_width * 2 + win_attr.width; */
-  /* int height = win_attr.border_width * 2 + win_attr.height; */
-  /* int rad = cornerrad * enablegaps * (1-enablefullscreen) * enableoutergaps;  */
-  int rad = cornerrad; 
-//config_theme_cornerradius;
-  int dia = 2 * rad;
+    if (!c || !c->win)
+        return;
 
-  // do not try to round if the window would be smaller than the corners
-  if(width < dia || height < dia)
-    return;
+    // Use the global Display variable
+    extern Display *dpy;
+    Window win = c->win;
 
-  Pixmap mask = XCreatePixmap(dpy, w, width, height, 1);
-  // if this returns null, the mask is not drawable
-  if(!mask)
-    return;
+    // Get window geometry
+    XWindowAttributes wa;
+    XGetWindowAttributes(dpy, win, &wa);
 
-  XGCValues xgcv;
-  GC shape_gc = XCreateGC(dpy, mask, 0, &xgcv);
-  if(!shape_gc) {
+    int width = wa.width;
+    int height = wa.height;
+
+    // Create the pixmap for the rounded mask
+    Pixmap mask = XCreatePixmap(dpy, win, width, height, 1);
+    GC gc = XCreateGC(dpy, mask, 0, NULL);
+    XSetForeground(dpy, gc, 0);
+    XFillRectangle(dpy, mask, gc, 0, 0, width, height);
+
+    // Set the foreground for drawing the rounded corners
+    XSetForeground(dpy, gc, 1);
+
+    // Draw the rounded rectangle for the mask
+    // Top-left corner
+    XFillArc(dpy, mask, gc, 0, 0, 2 * radius, 2 * radius, 0, 360 * 64);
+    // Top-right corner
+    XFillArc(dpy, mask, gc, width - 2 * radius - 1, 0, 2 * radius, 2 * radius, 0, 360 * 64);
+    // Bottom-left corner
+    XFillArc(dpy, mask, gc, 0, height - 2 * radius - 1, 2 * radius, 2 * radius, 0, 360 * 64);
+    // Bottom-right corner
+    XFillArc(dpy, mask, gc, width - 2 * radius - 1, height - 2 * radius - 1, 2 * radius, 2 * radius, 0, 360 * 64);
+
+    // Fill rectangles to complete the mask
+    XFillRectangle(dpy, mask, gc, radius, 0, width - 2 * radius, height);
+    XFillRectangle(dpy, mask, gc, 0, radius, width, height - 2 * radius);
+
+    // Apply the mask to the window
+    XShapeCombineMask(dpy, win, ShapeBounding, 0, 0, mask, ShapeSet);
+
+    // Free resources
     XFreePixmap(dpy, mask);
-    return;
-  }
+    XFreeGC(dpy, gc);
 
-  XSetForeground(dpy, shape_gc, 0);
-  XFillRectangle(dpy, mask, shape_gc, 0, 0, width, height);
-  XSetForeground(dpy, shape_gc, 1);
-  XFillArc(dpy, mask, shape_gc, 0, 0, dia, dia, 0, 23040);
-  XFillArc(dpy, mask, shape_gc, width-dia-1, 0, dia, dia, 0, 23040);
-  XFillArc(dpy, mask, shape_gc, 0, height-dia-1, dia, dia, 0, 23040);
-  XFillArc(dpy, mask, shape_gc, width-dia-1, height-dia-1, dia, dia, 0, 23040);
-  XFillRectangle(dpy, mask, shape_gc, rad, 0, width-dia, height);
-  XFillRectangle(dpy, mask, shape_gc, 0, rad, width, height-dia);
-  XShapeCombineMask(dpy, w, ShapeBounding, 0-wa.border_width, 0-wa.border_width, mask, ShapeSet);
-  XFreePixmap(dpy, mask);
-  XFreeGC(dpy, shape_gc);
+    // Flush the display
+    XFlush(dpy);
 }
 
-void roundcorners(Client *c) {
-  int radius =cornerrad;
-  int border_thickness = 4;
-  unsigned long border_color = 0xff8800;
+void draw_border(Client *c) {
+    int radius = cornerrad;
+    int border_thickness = 4;
+    unsigned long border_color = 0xff8800;
 
-  if (!c || !c->win)
-    return;
+    if (!c || !c->win)
+        return;
 
-  // Use the global Display variable
-  extern Display *dpy;
-  Window win = c->win;
+    // Use the global Display variable
+    extern Display *dpy;
+    Window win = c->win;
 
-  // Get window geometry
-  XWindowAttributes wa;
-  XGetWindowAttributes(dpy, win, &wa);
+    // Get window geometry
+    XWindowAttributes wa;
+    XGetWindowAttributes(dpy, win, &wa);
 
-  int width = wa.width;
-  int height = wa.height;
+    int width = wa.width;
+    int height = wa.height;
 
-  // Create the pixmap for the rounded mask
-  Pixmap mask = XCreatePixmap(dpy, win, width, height, 1);
-  GC gc = XCreateGC(dpy, mask, 0, NULL);
-  XSetForeground(dpy, gc, 0);
-  XFillRectangle(dpy, mask, gc, 0, 0, width, height);
-
-  // Set the foreground for drawing the rounded corners
-  XSetForeground(dpy, gc, 1);
-
-  // Draw the rounded rectangle for the mask
-  // Top-left corner
-  XFillArc(dpy, mask, gc, 0, 0, 2 * radius, 2 * radius, 0, 360 * 64);
-  // Top-right corner
-  XFillArc(dpy, mask, gc, width - 2 * radius - 1, 0, 2 * radius, 2 * radius, 0, 360 * 64);
-  // Bottom-left corner
-  XFillArc(dpy, mask, gc, 0, height - 2 * radius - 1, 2 * radius, 2 * radius, 0, 360 * 64);
-  // Bottom-right corner
-  XFillArc(dpy, mask, gc, width - 2 * radius - 1, height - 2 * radius - 1, 2 * radius, 2 * radius, 0, 360 * 64);
-
-  // Fill rectangles to complete the mask
-  XFillRectangle(dpy, mask, gc, radius, 0, width - 2 * radius, height);
-  XFillRectangle(dpy, mask, gc, 0, radius, width, height - 2 * radius);
-
-  // Apply the mask to the window
-  XShapeCombineMask(dpy, win, ShapeBounding, 0, 0, mask, ShapeSet);
-
-  // Free the mask pixmap
-  XFreePixmap(dpy, mask);
-
-  // Draw the border
-  if (border_thickness > 0) {
+    // Create a GC for the border
     GC border_gc = XCreateGC(dpy, win, 0, NULL);
     XSetForeground(dpy, border_gc, border_color);
 
-    // Draw the rounded rectangle border
+    // Draw the rounded border
     for (int i = 0; i < border_thickness; i++) {
-      // Top-left corner
-      XDrawArc(dpy, win, border_gc, i, i, 2 * (radius - i), 2 * (radius - i), 0, 360 * 64);
-      // Top-right corner
-      XDrawArc(dpy, win, border_gc, width - 2 * (radius - i) - 1, i, 2 * (radius - i), 2 * (radius - i), 0, 360 * 64);
-      // Bottom-left corner
-      XDrawArc(dpy, win, border_gc, i, height - 2 * (radius - i) - 1, 2 * (radius - i), 2 * (radius - i), 0, 360 * 64);
-      // Bottom-right corner
-      XDrawArc(dpy, win, border_gc, width - 2 * (radius - i) - 1, height - 2 * (radius - i) - 1, 2 * (radius - i), 2 * (radius - i), 0, 360 * 64);
+        // Top-left corner
+        XDrawArc(dpy, win, border_gc, i, i, 2 * (radius - i), 2 * (radius - i), 0, 360 * 64);
+        // Top-right corner
+        XDrawArc(dpy, win, border_gc, width - 2 * (radius - i) - 1, i, 2 * (radius - i), 2 * (radius - i), 0, 360 * 64);
+        // Bottom-left corner
+        XDrawArc(dpy, win, border_gc, i, height - 2 * (radius - i) - 1, 2 * (radius - i), 2 * (radius - i), 0, 360 * 64);
+        // Bottom-right corner
+        XDrawArc(dpy, win, border_gc, width - 2 * (radius - i) - 1, height - 2 * (radius - i) - 1, 2 * (radius - i), 2 * (radius - i), 0, 360 * 64);
 
-      // Horizontal lines
-      XDrawLine(dpy, win, border_gc, radius - i, i, width - radius + i - 1, i);                   // Top border
-      XDrawLine(dpy, win, border_gc, radius - i, height - i - 1, width - radius + i - 1, height - i - 1); // Bottom border
+        // Horizontal lines
+        XDrawLine(dpy, win, border_gc, radius - i, i, width - radius + i - 1, i);                   // Top border
+        XDrawLine(dpy, win, border_gc, radius - i, height - i - 1, width - radius + i - 1, height - i - 1); // Bottom border
 
-      // Vertical lines
-      XDrawLine(dpy, win, border_gc, i, radius - i, i, height - radius + i - 1);                   // Left border
-      XDrawLine(dpy, win, border_gc, width - i - 1, radius - i, width - i - 1, height - radius + i - 1); // Right border
+        // Vertical lines
+        XDrawLine(dpy, win, border_gc, i, radius - i, i, height - radius + i - 1);                   // Left border
+        XDrawLine(dpy, win, border_gc, width - i - 1, radius - i, width - i - 1, height - radius + i - 1); // Right border
     }
 
     // Free the GC
     XFreeGC(dpy, border_gc);
-  }
 
-  // Free the GC
-  XFreeGC(dpy, gc);
-
-  // Flush the display
-  XFlush(dpy);
+    // Flush the display
+    XFlush(dpy);
 }
+
 
 int
 main(int argc, char *argv[])
